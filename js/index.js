@@ -86,49 +86,154 @@ var addTwoNumbers = function (l1, l2) {
 
 var lengthOfLongestSubstring = function(s) {
         console.log(s);
-        let longSet = []
-        let resultObj = {};
-        let subS = ''
-        let linked = 0
-        let max = 0
-        s = [...s]
+        
+        let len = s.length
+        let maxlength = 0
+        let c = 0
+        let sumString = ''
 
-        s.forEach((item,i) => {
-            
-            if(!resultObj[item]){
-                resultObj[item] = 1
-            }else{
-                linked = 0
-                resultObj[item] += 1
-            }
-            
-            if(linked == 0){
-                subS = item
-            }
-            if(linked > 0){
-                subS += item
-            }
-            
-            if(linked >= max){
-                max = linked
-                longSet.push(subS)
-            }
-          
-            console.log(item , linked);
-            linked += 1
-        });
+        if(len === 0) return 0
+        if(len === 1) return 1
 
-        max = 0
-        longSet.forEach((item)=>{
-            if(item.length >= max){
-                max = item.length
+        while(c < len){
+            let i = c;
+            while(i < len){
+                let item = s[i]
+                if(!sumString.includes(item)){
+                    sumString += item                
+                }else{
+                    if(sumString.length > maxlength){
+                        maxlength = sumString.length
+                    }
+                    sumString = ''
+                    break;
+                }
+                i++;
             }
-        })
-        console.log(longSet);
-        console.log(max);
-
-        return max
+            c++;
+        }
+      return maxlength
 };
 
-//lengthOfLongestSubstring('dvdf')
-lengthOfLongestSubstring('pwwkew')
+/*     lengthOfLongestSubstring("au")
+    lengthOfLongestSubstring("asjrgapa")
+    lengthOfLongestSubstring('dvdf') 
+    lengthOfLongestSubstring('pwwkew') */
+
+
+// 4. Median of Two Sorted Arrays
+var findMedianSortedArrays = function(nums1, nums2) {
+    let sorted = [...nums1 , ...nums2].sort((a,b) => a-b)
+    let len = sorted.length
+    let center = len / 2
+    let median = 0;
+    median = len % 2 == 0 ? (sorted[center-1] + sorted[center])/2 : median = sorted[Math.floor(center)];
+    return median
+};
+
+/* let nums1 = [1,3]
+let nums2 = [2]
+findMedianSortedArrays(nums1 , nums2) */
+
+// 5. Longest Palindromic Substring # flag
+
+var longestPalindrome = function(s) {
+    const len = s.length;
+    
+    if (len === 0) return '';
+    if (len === 1) return s;
+    
+    let start = 0;
+    let maxLength = 1;
+
+    // Create a 2D array to store palindrome information
+    const dp = Array.from({ length: len }, () => Array(len).fill(false));
+
+    // All substrings of length 1 are palindromes
+    for (let i = 0; i < len; i++) {
+        dp[i][i] = true;
+    }
+
+    // Check substrings of length 2
+    for (let i = 0; i < len - 1; i++) {
+        if (s[i] === s[i + 1]) {
+            dp[i][i + 1] = true;
+            start = i;
+            maxLength = 2;
+        }
+    }
+
+    // Check substrings of length 3 or more
+    for (let currLen = 3; currLen <= len; currLen++) {
+        for (let i = 0; i <= len - currLen; i++) {
+            const j = i + currLen - 1;
+
+            if (dp[i + 1][j - 1] && s[i] === s[j]) {
+                dp[i][j] = true;
+                start = i;
+                maxLength = currLen;
+            }
+            
+        }
+    }
+    
+    return s.substring(start, start + maxLength);
+};
+
+//console.log(longestPalindrome('abcba'));      // aca
+/*console.log(longestPalindrome('abcba'));       // abcba
+console.log(longestPalindrome('aaaa'));       // aaaa
+console.log(longestPalindrome('cbbd'));       // bb
+console.log(longestPalindrome('ac'));       // a 
+console.log(longestPalindrome('bb'));       // bb 
+console.log(longestPalindrome('ccc'));       // a
+console.log(longestPalindrome('babad'));    // babad */
+
+
+// 6. Zigzag Conversion
+
+var convert = function(s, numRows) {
+    console.log(s , numRows);
+    let len = s.length
+
+    for(let i = 0 ; i < len ; i++){
+        console.log(s[i], i , i%6);
+    }
+
+    console.log("-----------");
+    
+    let cols = Math.floor((len-1)/2)
+    
+        for(let i = 0 ; i < numRows ; i++){
+
+            for(let j = 0 ; j < len ; j++){
+                console.log(s[j]);
+            }
+
+            console.log('---');
+                        
+        }
+};
+
+
+console.log(convert('PAYPALISHIRING',4));
+
+
+
+`
+    0       6       12
+    1     5 7    11 13
+    2  4    8 10  
+    3       9
+`
+
+
+
+
+
+
+
+// 0 6 12
+// 1 5 7 9 13
+// 2 4 8 10
+// 3 11
