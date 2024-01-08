@@ -311,7 +311,26 @@ var convert = function(s, numRows) {
 
 */
 
+
+// 7. Reverse Integer
+
 var reverse = function(x) {
     
+    let checkNegative = x < 0 ? true : false
+   
+    let n = [...''+Math.abs(x)].reverse().join('')
+
+    n = checkNegative ?  -n : n
+
+    if (Math.abs(+n) > 0x7FFFFFFF) {
+        return 0;
+    }
+    return +n
 };
+
+
+console.log(reverse(-123));
+
+
+
 
