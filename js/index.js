@@ -193,47 +193,125 @@ console.log(longestPalindrome('babad'));    // babad */
 // 6. Zigzag Conversion
 
 var convert = function(s, numRows) {
-    console.log(s , numRows);
     let len = s.length
+    if(numRows === len || numRows === 1) return s;
 
-    for(let i = 0 ; i < len ; i++){
-        console.log(s[i], i , i%6);
+    let branch = numRows - 2 
+    let ipc = branch + numRows 
+    let mainCol = Math.floor((len)/numRows) + (numRows % 2 === 0 ? 1 : 0)
+    
+    let zS = ''
+    if(mainCol == 0) mainCol = 1
+    
+    let row = 0;
+    while(row < numRows){
+        let sumS = ""
+        let index = 0
+
+        for(let col = 0 ; col <= mainCol ; col++){
+            index = row+(col*(ipc)) 
+                if(row > 0 && row < numRows-1){
+                    let nindex = col*ipc-row
+                    sumS += s[nindex] ? s[nindex] : ''
+                }
+                sumS += s[index] ? s[index] : ''
+        }
+        
+        zS += sumS
+        row++
     }
 
-    console.log("-----------");
-    
-    let cols = Math.floor((len-1)/2)
-    
-        for(let i = 0 ; i < numRows ; i++){
-
-            for(let j = 0 ; j < len ; j++){
-                console.log(s[j]);
-            }
-
-            console.log('---');
-                        
-        }
+    return zS 
 };
 
 
-console.log(convert('PAYPALISHIRING',4));
+//console.log(convert('ABCDE',4));
 
 
+/*
+    0
+    1 3
+    2 
 
-`
-    0       6       12
-    1     5 7    11 13
-    2  4    8 10  
-    3       9
-`
+    BRANCH = numRows - 2 
+    1 0
+    2 0
+    3 1
+    4 2
+    5 3
+    6 4
+    
+    1 ------------------
+
+    0
+    1 3
+    2
+
+    2 ------------------
+    
+    0 2 4 
+    1 3 5
+
+    3 ------------------
+    
+    0   4   8    12
+    1 3 5 7 9 11 13  
+    2   6   10 
+
+    Rows : 3
+    Str len : 14
+    All num cols : 7
+    Increace per main col : 4
+    Main col : 4
+
+    4 ------------------- 
+    
+    0      6      12    
+    1    5 7   11 13
+    2  4   8 10  
+    3      9
+
+    
+
+    Rows : 4
+    Str len : 14
+    All num cols : 7
+    Increace per main col : 6
+    Main col : 3
 
 
+    5 ------------------
 
+    0       8    
+    1     7 9
+    2   6   10
+    3 5     11  13
+    4       12
 
+    Rows : 5
+    Str len : 14
+    All num cols : 7
+    Increace per main col : 8
+    Main col : 2
 
+    6 ------------------
 
+    0          10   
+    1       9  11 
+    2     8    12
+    3   7      13
+    4 6
+    5
 
-// 0 6 12
-// 1 5 7 9 13
-// 2 4 8 10
-// 3 11
+    Rows : 6
+    Str len : 14
+    All num cols : 6
+    Increace per main col : 10
+    Main col : 2
+
+*/
+
+var reverse = function(x) {
+    
+};
+
